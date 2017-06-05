@@ -44,3 +44,7 @@
 .highlight {
   background-color: pink;
 }
+
+.glyphicon-ok::before, .glyphicon-remove::before {
+  display: none;
+}
