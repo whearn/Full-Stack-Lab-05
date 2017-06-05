@@ -34,13 +34,15 @@ function activeLetter(indexNum, letterNum) {
 }
 
 function isRight() {
-    var $greenOk = $('<span class="glyphicon-ok">&#10003;</span>');
+    var $greenOk = $('<span class="glyphicon glyphicon-ok"></span>');
 
     $('#feedback').append($greenOk);
     
     if (index === sentences.length - 1 && letter === activeSentence.length - 1) {
         $('#target-letter').text('');
         wordsPerMinute(startTime);
+        // playAgain();
+        setTimeout(playAgain, 2500);
     } else if (letter === activeSentence.length - 1) {
         $('#feedback').text('');
         index++;
@@ -52,11 +54,12 @@ function isRight() {
         activeLetter(index, letter);
         //work on highlight nudge math
         // $('#yellow-block').css('left', 1 * letter + 'em');
+        $('#yellow-block').css('left', 18 * letter + 'px');
     }
 }
 
 function isWrong() {
-    var $redIncorrect = $('<span class="glyphicon-remove">&#10007;</span>');
+    var $redIncorrect = $('<span class="glyphicon glyphicon-remove"></span>');
     $('#feedback').append($redIncorrect);
     numberOfMistakes++;
 }
@@ -70,8 +73,17 @@ function wordsPerMinute(start) {
 function startGame() {
     index = 0;
     letter = 0;
+    startTime = new Date().getMinutes();
+    $('#feedback').text('');
     displaySentence(index);
     activeLetter(index, letter);
+}
+
+function playAgain() {
+    var userAnswer = confirm('Play Again?');
+    if (userAnswer) {
+        startGame();
+    }
 }
 
 $(document).keydown(function(event){
@@ -97,6 +109,8 @@ $(document).keyup(function(event){
 
 $(document).keypress(function(event){
     var $key = $('#' + event.which);
+
+    event.preventDefault();
 
     switch (event.which) {
         case event.which:
